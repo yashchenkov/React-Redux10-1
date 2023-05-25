@@ -10,18 +10,27 @@ export default function serviceListReducer(state = initialState, action) {
 	switch (action.type) {
 		case ADD_SERVICE:
 		  const {name, price} = action.payload;
-		  return [...state, {id: nanoid(), name, price: Number(price)}];
+		  console.log(action.payload.id);
+		  if(action.payload.id) {
+		  	return state.map(o => {
+		  		return {...o, name: name, price: price}
+		  	})
+		  } else {
+		  	return [...state, {id: nanoid(), name, price: Number(price)}];
+		  }
 		case REMOVE_SERVICE:
 		console.log(action);
 		  const {id} = action.payload;
 		  return state.filter(service => service.id !== id);
 		case EDIT_SERVICE_FIELD:
 		  //return state;
+		  console.log('call')
 		  return state.map(o => {
 		  	if(o.id === action.payload.id) {
 		  	  console.log(state);
 		  		return { ...o, name: action.payload.name, price: action.payload.value}
-		  	}
+		  	} 
+		  	
 		  	return o;
 		  });
 		default:
